@@ -1,2 +1,2 @@
 # CAS_Game
-LMAOOOOOOOOOOOOOOOOOOO
+A Java game for IB CAS project
