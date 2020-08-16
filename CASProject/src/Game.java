@@ -11,8 +11,8 @@ public class Game extends JPanel implements KeyListener{
 	public Character character;
 	public Character enemy;
 	public Target target;	
-	private static int WINDOWWIDTH = 1100;
-	private static int WINDOWHEIGHT = 700;
+	private static int WINDOWWIDTH = 1200;
+	private static int WINDOWHEIGHT = 800;
 	private static int IMGWIDTH = 100;
 	public int x;
 	public int y;
@@ -27,6 +27,10 @@ public class Game extends JPanel implements KeyListener{
 	public boolean collision;
 	public int collisionCount;
 	public int collisionCount1;
+	
+	
+	public static int rounds;
+	public boolean roundOver;
 
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
@@ -34,13 +38,12 @@ public class Game extends JPanel implements KeyListener{
 	public Game() {
 		super();
 		
+		roundOver = false;
 		velocity = 2;
 		acceleration = 1;
 		collision = false;
 		collisionCount = 0;
 		
-		character = new Character(1);
-		enemy = new Character(0);
 
 		x1 = 400;
 		y1 = 400;
@@ -57,10 +60,13 @@ public class Game extends JPanel implements KeyListener{
 		
         addKeyListener(this);
 		this.setBackground(Color.white);
-        this.setBounds(50, 50, WINDOWWIDTH , WINDOWHEIGHT);
+        this.setBounds(0, 0, WINDOWWIDTH , WINDOWHEIGHT);
 	}
 
-	
+	public void initialize(int ship) {
+		character = new Character(0, ship);
+		enemy = new Character(1, ship);
+	}
 	
 	
 	public void paintComponent(Graphics g) {
@@ -86,6 +92,9 @@ public class Game extends JPanel implements KeyListener{
 				
 				
 				collisionDetect(i);
+				if(collisionCount == 10 || collisionCount1 == 10) {
+					roundOver = true;
+				}
 				if (collision) {
 					bullets.remove(i);
 					break;

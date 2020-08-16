@@ -13,14 +13,34 @@ public class Character {
 	public int sizeX;
 	public int sizeY;
 	
-	public Character(int characterNum) {
+	public Character(int characterNum, int shipNum) {
 		sizeX = 100;
 		sizeY = 100;
-		if (characterNum == 1) {
-			image = new ImageIcon("Resources/Images/character.png").getImage();
+		if (characterNum == 0) {
+			switch(shipNum) {
+			case 0:
+				image = new ImageIcon("Resources/Images/character.png").getImage();
+				return;
+			case 1:
+				image = new ImageIcon("Resources/Images/ship2L.png").getImage();
+				return;
+			case 2:
+				image = new ImageIcon("Resources/Images/ship3L.png").getImage();
+				return;
+			}
 		}
 		else {
-			image = new ImageIcon("Resources/Images/character2.png").getImage();
+			switch(shipNum) {
+			case 0:
+				image = new ImageIcon("Resources/Images/character2.png").getImage();
+				return;
+			case 1:
+				image = new ImageIcon("Resources/Images/ship2R.png").getImage();
+				return;
+			case 2:
+				image = new ImageIcon("Resources/Images/ship3R.png").getImage();
+				return;
+			}
 		}
 	}
 	
