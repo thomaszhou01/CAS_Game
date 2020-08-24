@@ -13,6 +13,8 @@ public class Frame extends JFrame implements ActionListener{
 	public Game game;
 	public Menu menu;
 	public CharacterSelect select;
+	public ItemSelect itemSelect;
+	public GameWin win; 
 	private Container c = getContentPane();
 
 	public Frame(String a) {
@@ -49,6 +51,9 @@ public class Frame extends JFrame implements ActionListener{
         menu = new Menu();
 		select = new CharacterSelect();
 		game = new Game();
+		itemSelect = new ItemSelect();
+		win = new GameWin();
+		
 		
         this.setJMenuBar(jmb);
 		c.add(menu);
@@ -71,7 +76,26 @@ public class Frame extends JFrame implements ActionListener{
 			c.add(game);
 			game.setFocus();
 		}
+		if(Game.roundOver) {
+			c.removeAll();
+			if(CharacterSelect.gameRounds <= Game.rounds) {
+				c.add(win);
+				win.setFocus();
+			}
+			else {
+				c.add(itemSelect);
+				itemSelect.setFocus();
+				itemSelect.resetGame(game);
+			}
+			
+		}
 		
+		if(ItemSelect.resumePlay) {
+			ItemSelect.resumePlay = false;
+			c.removeAll();
+			c.add(game);
+			game.setFocus();
+		}
 		repaint();
 	}
 
@@ -82,7 +106,7 @@ public class Frame extends JFrame implements ActionListener{
 		if(e.getActionCommand().equals("Exit")) {
 			System.exit(1);
 		 }
-		 else if(e.getActionCommand().equals("Play")) {
+		 else if(e.getActionCommand().equals("Play") && !Game.roundOver) {
 			 game.initialize(select.shipNum);
 			 select.reset();
 			 c.removeAll();

@@ -9,7 +9,7 @@ public class CharacterSelect extends JPanel implements ActionListener{
 	private ImageIcon image; 
 	
 	public int shipNum;
-	public int gameRounds;
+	public static int gameRounds;
 	public boolean startGame;
 	
 	public CharacterSelect() {

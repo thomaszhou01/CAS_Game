@@ -8,12 +8,20 @@ import java.util.Random;
 
 public class Game extends JPanel implements KeyListener{
 
+	
+	public static int INIT_X = 100;
+	public static int INIT_Y = 100;
+	public static int INIT_X2 = 600;
+	public static int INIT_Y2 = 600;
 	public Character character;
 	public Character enemy;
 	public Target target;	
 	private static int WINDOWWIDTH = 1200;
 	private static int WINDOWHEIGHT = 800;
 	private static int IMGWIDTH = 100;
+	
+	private static int HITS_TO_WIN = 3;
+	
 	public int x;
 	public int y;
 	public int xVelocity;
@@ -30,7 +38,7 @@ public class Game extends JPanel implements KeyListener{
 	
 	
 	public static int rounds;
-	public boolean roundOver;
+	public static boolean roundOver;
 
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
@@ -45,15 +53,10 @@ public class Game extends JPanel implements KeyListener{
 		collisionCount = 0;
 		
 
-		x1 = 400;
-		y1 = 400;
-		
-		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-
-				bullets.add(new Bullet(x + IMGWIDTH/2 + 30, y + IMGWIDTH/2 - 10, false));
-			}
-		});	
+		x = INIT_X;
+		y = INIT_Y;
+		x1 = INIT_X2;
+		y1 = INIT_Y2;
 		target = new Target(1000, 300);
 
 		
@@ -66,6 +69,15 @@ public class Game extends JPanel implements KeyListener{
 	public void initialize(int ship) {
 		character = new Character(0, ship);
 		enemy = new Character(1, ship);
+		roundOver = false;
+		collisionCount = 0;
+		collisionCount1 = 0;
+		x = INIT_X;
+		y = INIT_Y;
+		x1 = INIT_X2;
+		y1 = INIT_Y2;
+		bullets.clear();
+
 	}
 	
 	
@@ -92,7 +104,8 @@ public class Game extends JPanel implements KeyListener{
 				
 				
 				collisionDetect(i);
-				if(collisionCount == 10 || collisionCount1 == 10) {
+				if((collisionCount == HITS_TO_WIN || collisionCount1 == HITS_TO_WIN) && !roundOver) {
+					rounds++;
 					roundOver = true;
 				}
 				if (collision) {
@@ -107,10 +120,23 @@ public class Game extends JPanel implements KeyListener{
 				
 			}
 		}
-		
+		System.out.println(rounds);
 		repaint();
 	}
 
+	
+	
+	public void resetRound() {
+		roundOver = false;
+		collisionCount = 0;
+		collisionCount1 = 0;
+		x = INIT_X;
+		y = INIT_Y;
+		x1 = INIT_X2;
+		y1 = INIT_Y2;
+		bullets.clear();
+	}
+	
 	public void collisionDetect(int i) {
 		Rectangle bulletHitbox = bullets.get(i).bounds();
 		Rectangle characterHitBox = character.bounds();
